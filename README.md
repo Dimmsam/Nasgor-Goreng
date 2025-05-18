@@ -9,6 +9,6 @@ Anggota Kelompok:
 
 Kelas 1B D3 Teknik Informatika 2025
 
-Nama Project: PROGRAM SISTEM PERPUSTAKAAN DIGITAL
+Project: PROGRAM SISTEM PERPUSTAKAAN DIGITAL
 
 # Progress
