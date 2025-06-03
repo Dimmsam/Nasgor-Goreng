@@ -61,7 +61,7 @@ char* dequeue(WaitingNode** front, WaitingNode** rear) {
 }
 
 // Mengecek apakah queue kosong
-int isQueueEmpty(WaitingNode* front) {
+bool isQueueEmpty(WaitingNode* front) {
     return front == NULL;
 }
 
@@ -91,31 +91,4 @@ void freeQueue(WaitingNode* front) {
         current = current->next;
         free(temp);
     }
-}
-
-// Menghitung ukuran queue
-int queueSize(WaitingNode* front) {
-    int size = 0;
-    WaitingNode* current = front;
-    
-    while (current != NULL) {
-        size++;
-        current = current->next;
-    }
-    
-    return size;
-}
-
-// Mengecek apakah user ada dalam queue
-int isUserInQueue(WaitingNode* front, char* userName) {
-    WaitingNode* current = front;
-    
-    while (current != NULL) {
-        if (strcmp(current->userName, userName) == 0) {
-            return 1; // User ditemukan
-        }
-        current = current->next;
-    }
-    
-    return 0; // User tidak ditemukan
 }
