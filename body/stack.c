@@ -20,3 +20,30 @@ void hapusRiwayatTerakhir(RiwayatNode** top){
     *top = (*top)->next;
     free(temp);
 }
+
+void lihatBukuTerakhir(RiwayatNode* top){
+    if(top == NULL){
+        printf("Belum ada riwayat baca");
+    }else{
+        printf("Buku terakhir yang dibaca: %s\n", top->judul);
+    }
+}
+
+void tampilkanRiwayat(RiwayatNode* top){
+    RiwayatNode* current = top;
+    int counter = 1;
+    while (current != NULL) {
+        printf("%d. %s\n", counter++, current->judul);
+        current = current->next;
+    }
+    if(counter == 1){
+        printf("Riwayat kosong\n");
+        printf("===============\n");
+    }
+}
+
+void resetRiwayat(RiwayatNode** top){
+    while(*top != NULL){
+        hapusRiwayatTerakhir(top);
+    }
+}
