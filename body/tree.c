@@ -88,3 +88,12 @@ void displayAllGenres(GenreNode* root) {
     }
     printf("----------------------------------------\n");
 }
+
+// Modul rekursif biar sedikit lebih simpel
+void displayGenreTreeRecursive(GenreNode* node, int level) {
+    if (node == NULL) return;
+    for (int i = 0; i < level; i++) printf("  ");
+    printf("- %s\n", node->genreName);
+    displayGenreTreeRecursive(node->firstChild, level + 1);
+    displayGenreTreeRecursive(node->nextSibling, level);
+}
