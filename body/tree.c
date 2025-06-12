@@ -1,118 +1,59 @@
-#include "tree.h"
+#include "../header/tree.h"
 
-GenreNode* createGenreNode(const char* name) {
-    GenreNode* node = (GenreNode*)malloc(sizeof(GenreNode));
-    strcpy(node->genreName, name);
-    node->fs = node->nb = node->pr = NULL;
-    node->bookList = NULL;
-    return node;
+// Buat deklarasi variabel global
+GenreNode* genreRoot = NULL;
+GenreNode* fiksiNode = NULL;
+GenreNode* nonFiksiNode = NULL;
+
+void initGenreTree() {
+    genreRoot = createGenre("Sistem Perpus Digital");
+    fiksiNode = createGenre("Fiksi");
+    nonFiksiNode = createGenre("Non-Fiksi");
+    
+    genreRoot->firstChild = fiksiNode;
+    fiksiNode->parent = genreRoot;
+    fiksiNode->nextSibling = nonFiksiNode;
+    nonFiksiNode->parent = genreRoot;
 }
 
-GenreNode* insertSubGenre(GenreNode* parent, const char* subGenreName) {
-    if (!parent) return NULL;
-
-    GenreNode* newNode = createGenreNode(subGenreName);
-    newNode->pr = parent;
-
-    if (!parent->fs) {
-        parent->fs = newNode;
-    } else {
-        GenreNode* temp = parent->fs;
-        while (temp->nb) temp = temp->nb;
-        temp->nb = newNode;
-    }
-    return newNode;
-}
-
-void traverseGenreTree(GenreNode* root, int depth) {
-    if (!root) return;
-
-    for (int i = 0; i < depth; i++) printf("  ");
-    printf("- %s\n", root->genreName);
-
-    traverseGenreTree(root->fs, depth + 1);
-    traverseGenreTree(root->nb, depth);
-}
-
-GenreNode* findGenre(GenreNode* root, const char* name) {
-    if (!root) return NULL;
-    if (strcmp(root->genreName, name) == 0) return root;
-
-    GenreNode* found = findGenre(root->fs, name);
-    if (found) return found;
-
-    return findGenre(root->nb, name);
-}
-
-void deleteGenre(GenreNode* root, const char* targetName) {
-    if (!root || !targetName) return;
-
-    GenreNode* pr = root;
-    GenreNode* prev = NULL;
-    GenreNode* curr = root->fs;
-
-    while (curr) {
-        if (strcmp(curr->genreName, targetName) == 0) {
-            if (prev) prev->nb = curr->nb;
-            else pr->fs = curr->nb;
-
-            free(curr);
-            printf("Genre '%s' berhasil dihapus.\n", targetName);
-            return;
-        }
-        prev = curr;
-        curr = curr->nb;
-    }
-
-    GenreNode* child = root->fs;
-    while (child) {
-        deleteGenre(child, targetName);
-        child = child->nb;
-    }
-}
-
-GenreNode* loadGenreTreeFromFile(const char* filename) {
-    FILE* file = fopen(filename, "r");
-    if (!file) {
-        printf("File genre tidak ditemukan.\n");
+GenreNode* createGenre(const char* genreName) {
+    GenreNode* newNode = (GenreNode*)malloc(sizeof(GenreNode));
+    if (newNode == NULL) {
+        printf("Error: Memory allocation failed\n");
         return NULL;
     }
 
-    GenreNode* root = createGenreNode("root");
-    GenreNode* stack[100] = { NULL };
-    stack[0] = root;
+    strcpy(newNode->genreName, genreName);
+    newNode->firstChild = NULL;
+    newNode->nextSibling = NULL;
+    newNode->parent = NULL;
+    newNode->bookList = NULL;
 
-    char line[100];
-    while (fgets(line, sizeof(line), file)) {
-        int level = 0;
-        while (line[level] == '\t') level++;
-        line[strcspn(line, "\n")] = 0;
-
-        char* genreName = line + level;
-        GenreNode* node = insertSubGenre(stack[level], genreName);
-        stack[level + 1] = node;
-    }
-
-    fclose(file);
-    return root;
+    return newNode;
 }
 
-void saveGenreTreeToFile(FILE* file, GenreNode* node, int depth) {
-    if (!node) return;
-
-    for (int i = 0; i < depth; i++) fprintf(file, "\t");
-    fprintf(file, "%s\n", node->genreName);
-
-    saveGenreTreeToFile(file, node->fs, depth + 1);
-    saveGenreTreeToFile(file, node->nb, depth);
+GenreNode* findGenre(GenreNode* root, const char* genreName) {
+    if (root == NULL) {
+        return NULL;
+    }
+    if (strcmp(root->genreName, genreName) == 0) {
+        return root;
+    }
+    GenreNode* sibling = findGenre(root->nextSibling, genreName);
+    if (sibling != NULL) {
+        return sibling;
+    }
+    return findGenre(root->firstChild, genreName);
 }
 
-void saveGenreTree(GenreNode* root, const char* filename) {
-    FILE* file = fopen(filename, "w");
-    if (!file) {
-        printf("Gagal menyimpan genre ke file.\n");
-        return;
+GenreNode* findMainGenre(const char* mainGenreName) {
+    if (genreRoot == NULL) return NULL;
+    GenreNode* current = genreRoot->firstChild;
+    while (current != NULL) {
+        if (strcmp(current->genreName, mainGenreName) == 0) {
+            return current;
+        }
+        current = current->nextSibling;
     }
-    saveGenreTreeToFile(file, root->fs, 0);
-    fclose(file);
+    return NULL;
 }
