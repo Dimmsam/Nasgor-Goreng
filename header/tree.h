@@ -15,9 +15,17 @@ typedef struct GenreNode {
     BookNode* bookList;
 } GenreNode;
 
+// Modul-modul buat operasi tree genrenya
 GenreNode* createGenre(const char* genreName);
 GenreNode* findGenre(GenreNode* root, const char* genreName);
 GenreNode* findMainGenre(const char* mainGenreName);
 void initGenreTree();
+
+// Modul-modul buat visualisasi
+void displayGenreTree(GenreNode* root);
+void displayAllGenres(GenreNode* root);
+
+//Buat dipake folder lain kalo butuh
+extern GenreNode* genreRoot;
 
 #endif

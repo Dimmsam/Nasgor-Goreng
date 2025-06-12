@@ -57,3 +57,34 @@ GenreNode* findMainGenre(const char* mainGenreName) {
     }
     return NULL;
 }
+
+void displayGenreTree(GenreNode* root) {
+    if (root == NULL) {
+        printf("No genres available\n");
+        return;
+    }
+    printf("\nGenre Tree:\n");
+    printf("----------------------------------------\n");
+    displayGenreTreeRecursive(root, 0);
+    printf("----------------------------------------\n");
+}
+
+void displayAllGenres(GenreNode* root) {
+    if (root == NULL) {
+        printf("No genres available\n");
+        return;
+    }
+    printf("\nAll Genres:\n");
+    printf("----------------------------------------\n");
+    GenreNode* mainGenre = root->firstChild;
+    while (mainGenre != NULL) {
+        printf("%s:\n", mainGenre->genreName);
+        GenreNode* genre = mainGenre->firstChild;
+        while (genre != NULL) {
+            printf("  - %s\n", genre->genreName);
+            genre = genre->nextSibling;
+        }
+        mainGenre = mainGenre->nextSibling;
+    }
+    printf("----------------------------------------\n");
+}
