@@ -82,46 +82,6 @@ GenreNode* findMainGenre(const char* mainGenreName) {
     return NULL;
 }
 
-void displayGenreTree(GenreNode* root) {
-    if (root == NULL) {
-        printf("No genres available\n");
-        return;
-    }
-    printf("\nGenre Tree:\n");
-    printf("----------------------------------------\n");
-    displayGenreTreeRecursive(root, 0);
-    printf("----------------------------------------\n");
-}
-
-void displayAllGenres(GenreNode* root) {
-    if (root == NULL) {
-        printf("No genres available\n");
-        return;
-    }
-    printf("\nAll Genres:\n");
-    printf("----------------------------------------\n");
-    GenreNode* mainGenre = root->firstChild;
-    while (mainGenre != NULL) {
-        printf("%s:\n", mainGenre->genreName);
-        GenreNode* genre = mainGenre->firstChild;
-        while (genre != NULL) {
-            printf("  - %s\n", genre->genreName);
-            genre = genre->nextSibling;
-        }
-        mainGenre = mainGenre->nextSibling;
-    }
-    printf("----------------------------------------\n");
-}
-
-// Modul rekursif biar sedikit lebih simpel
-void displayGenreTreeRecursive(GenreNode* node, int level) {
-    if (node == NULL) return;
-    for (int i = 0; i < level; i++) printf("  ");
-    printf("- %s\n", node->genreName);
-    displayGenreTreeRecursive(node->firstChild, level + 1);
-    displayGenreTreeRecursive(node->nextSibling, level);
-}
-
 void saveGenreData(GenreNode* root) {
     FILE* file = fopen("data/statistics/genres.txt", "w");
     if (file == NULL) {

@@ -22,10 +22,6 @@ GenreNode* findMainGenre(const char* mainGenreName);
 void addSubGenre(GenreNode* parent, const char* genreName);
 void initGenreTree();
 
-// Modul-modul buat visualisasi
-void displayGenreTree(GenreNode* root);
-void displayAllGenres(GenreNode* root);
-
 // Modul-modul buat penyimpanan genre
 void saveGenreData(GenreNode* root);
 void loadGenreData(GenreNode** root);
