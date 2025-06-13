@@ -8,6 +8,4 @@ Project: PROGRAM SISTEM PERPUSTAKAAN DIGITAL
 - Dimas Rizal Ramadhani (241511040)
 - Mahesa Fazrie Mahardhika Gunadi (241511047)
 
-# Progress
-
 @Kelompok_Nasgor_Goreng_1B_D3_Teknik Informatika_2025
