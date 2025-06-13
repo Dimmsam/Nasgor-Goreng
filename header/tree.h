@@ -29,4 +29,8 @@ void loadGenreData(GenreNode** root);
 //Buat dipake folder lain kalo butuh
 extern GenreNode* genreRoot;
 
+<<<<<<< HEAD
 #endif
+=======
+#endif
+>>>>>>> 1ac5f9bb5597375a8e552e4b358fecfc3d542617
