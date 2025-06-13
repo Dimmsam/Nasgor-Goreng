@@ -1,4 +1,16 @@
 {
+<<<<<<< HEAD
+  "files.associations": {
+    "rekomendasi.h": "c",
+    "booklist.h": "c",
+    "tree.h": "c",
+    "stdlib.h": "c",
+    "transaksi.h": "c",
+    "stdbool.h": "c",
+    "string.h": "c"
+  }
+}
+=======
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",
@@ -57,3 +69,4 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false
 }
+>>>>>>> 1ac5f9bb5597375a8e552e4b358fecfc3d542617
