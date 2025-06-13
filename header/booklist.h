@@ -33,4 +33,13 @@ typedef struct BookNode {
     struct BookNode* next;
 } BookNode;
 
+// Modul modul operasi pada buku
+BookNode* createBook(const char* judul, const char* penulis, const char* penerbit, 
+                    int tahun, const char* kode, int stok, const char* genre);
+void addBookToGenre(const char* genreName, BookNode* book);
+void removeBookFromGenre(const char* genreName, const char* kodeBuku);
+
+// Modul-modul penyimpanan buku
+void saveAllBooksToFile(const char* genreName);
+
 #endif
