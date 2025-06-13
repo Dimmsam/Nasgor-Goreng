@@ -32,3 +32,5 @@ typedef struct BookNode {
     WaitingNode* rear;
     struct BookNode* next;
 } BookNode;
+
+#endif
