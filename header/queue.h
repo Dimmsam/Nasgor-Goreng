@@ -6,19 +6,10 @@
 #include <string.h>
 #include <stdbool.h>
 
-// Struct untuk node Queue (Waiting List)
+// Struct untuk Waiting List
 typedef struct WaitingNode {
-    char userName[50]; // Nama user yang masuk waiting list
-    struct WaitingNode* next; // Pointer ke node berikutnya
-} WaitingNode;
+    char userName[50];
+    struct WaitingNode* next;
+} WaitingNode; // Buat di sambungin ke booknode
 
-// Fungsi untuk queue (waiting list)
-WaitingNode* createWaitingNode(char* userName);
-void enqueue(WaitingNode** front, WaitingNode** rear, char* userName);
-char* dequeue(WaitingNode** front, WaitingNode** rear);
-bool isQueueEmpty(WaitingNode* front);
-void displayQueue(WaitingNode* front);
-void freeQueue(WaitingNode* front);
-
-
-#endif
+#endif // QUEUE_H

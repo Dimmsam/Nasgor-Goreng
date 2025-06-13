@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "rekomendasi.h": "c",
+    "booklist.h": "c",
+    "tree.h": "c",
+    "stdlib.h": "c",
+    "transaksi.h": "c",
+    "stdbool.h": "c",
+    "string.h": "c"
+  }
+}
