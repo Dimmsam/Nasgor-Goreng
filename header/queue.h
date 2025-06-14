@@ -12,4 +12,21 @@ typedef struct WaitingNode {
     struct WaitingNode* next;
 } WaitingNode; // Buat di sambungin ke booknode
 
+// Struct terusan dari booklist.h
+struct BookNode;
+typedef struct BookNode BookNode;
+
+// Operasi Queue waiting list
+void enqueueWaitingList(BookNode* book, const char* userName);
+void dequeueWaitingList(BookNode* book);
+bool isWaitingListEmpty(BookNode* book);
+
+// Operasi File
+void saveWaitingList(BookNode* book);
+void loadWaitingList(BookNode* book);
+
+// Manajemen Waiting List
+void processWaitingList(BookNode* book);
+bool isUserInWaitingList(BookNode* book, const char* userName);
+
 #endif // QUEUE_H
