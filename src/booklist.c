@@ -160,3 +160,49 @@ void displayAllBooks() {
         mainGenre = mainGenre->nextSibling;
     }
 }
+
+void updateBookStock(const char* kodeBuku, int newStock) {
+    if (genreRoot == NULL) return;
+    GenreNode* mainGenre = genreRoot->firstChild;
+    while (mainGenre != NULL) {
+        GenreNode* genre = mainGenre->firstChild;
+        while (genre != NULL) {
+            BookNode* currentBook = genre->bookList;
+            while (currentBook != NULL) {
+                if (strcmp(currentBook->info.kode_buku, kodeBuku) == 0) {
+                    currentBook->stok = newStock;
+                    saveAllBooksToFile(genre->genreName);
+                    return;
+                }
+                currentBook = currentBook->next;
+            }
+            genre = genre->nextSibling;
+        }
+        mainGenre = mainGenre->nextSibling;
+    }
+}
+
+BookNode* findBook(const char* kodeBuku) {
+    if (genreRoot == NULL) return NULL;
+    GenreNode* mainGenre = genreRoot->firstChild;
+    while (mainGenre != NULL) {
+        GenreNode* genre = mainGenre->firstChild;
+        while (genre != NULL) {
+            BookNode* currentBook = genre->bookList;
+            while (currentBook != NULL) {
+                if (strcmp(currentBook->info.kode_buku, kodeBuku) == 0) {
+                    return currentBook;
+                }
+                currentBook = currentBook->next;
+            }
+            genre = genre->nextSibling;
+        }
+        mainGenre = mainGenre->nextSibling;
+    }
+    return NULL;
+}
+
+bool isBookAvailable(const char* kodeBuku) {
+    BookNode* book = findBook(kodeBuku);
+    return (book != NULL && book->stok > 0);
+}

@@ -43,6 +43,12 @@ void removeBookFromGenre(const char* genreName, const char* kodeBuku);
 void displayBooksInGenre(const char* genreName);
 void displayAllBooks();
 
+// Modul-modul buat yg berhubungan dengan stok
+void updateBookStock(const char* kodeBuku, int newStock);
+BookNode* findBook(const char* kodeBuku);
+bool isBookAvailable(const char* kodeBuku);
+
+
 // Modul-modul penyimpanan buku
 void saveAllBooksToFile(const char* genreName);
 
