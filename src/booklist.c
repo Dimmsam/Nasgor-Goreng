@@ -119,3 +119,44 @@ const char* getParentGenreFolder(GenreNode* genre) {
     if (genre == NULL || genre->parent == NULL) return NULL;
     return genre->parent->genreName;
 }
+
+void displayBooksInGenre(const char* genreName) {
+    GenreNode* genre = findGenre(genreRoot, genreName);
+    if (genre == NULL) {
+        printf("Error: Genre not found\n");
+        return;
+    }
+
+    printf("\nBooks in genre '%s':\n", genreName);
+    printf("----------------------------------------\n");
+    
+    BookNode* current = genre->bookList;
+    while (current != NULL) {
+        printf("Title: %s\n", current->judul);
+        printf("Author: %s\n", current->info.penulis);
+        printf("Publisher: %s\n", current->info.penerbit);
+        printf("Year: %d\n", current->info.tahun_terbit);
+        printf("Code: %s\n", current->info.kode_buku);
+        printf("Stock: %d\n", current->stok);
+        printf("Views: %d\n", current->viewCount);
+        printf("----------------------------------------\n");
+        current = current->next;
+    }
+}
+
+void displayAllBooks() {
+    if (genreRoot == NULL) {
+        printf("No genres available\n");
+        return;
+    }
+    GenreNode* mainGenre = genreRoot->firstChild;
+    while (mainGenre != NULL) {
+        printf("\n=== %s ===\n", mainGenre->genreName);
+        GenreNode* genre = mainGenre->firstChild;
+        while (genre != NULL) {
+            displayBooksInGenre(genre->genreName);
+            genre = genre->nextSibling;
+        }
+        mainGenre = mainGenre->nextSibling;
+    }
+}

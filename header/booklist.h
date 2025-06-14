@@ -39,6 +39,10 @@ BookNode* createBook(const char* judul, const char* penulis, const char* penerbi
 void addBookToGenre(const char* genreName, BookNode* book);
 void removeBookFromGenre(const char* genreName, const char* kodeBuku);
 
+// Modul-modul untuk menampilkan buku
+void displayBooksInGenre(const char* genreName);
+void displayAllBooks();
+
 // Modul-modul penyimpanan buku
 void saveAllBooksToFile(const char* genreName);
 
