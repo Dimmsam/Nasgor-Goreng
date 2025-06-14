@@ -93,51 +93,13 @@ bool updateTransactionStatus(const char* transactionId, const char* newStatus) {
     return false;
 }
 
-void displayActiveTransactions() {
-    if (activeTransactionList == NULL) {
-        printf("Tidak ada daftar transaksi aktif\n");
-        return;
-    }
-
-    printf("\nTransaksi Aktif:\n");
-    printf("----------------------------------------\n");
-    
-    TransactionNode* current = activeTransactionList;
-    while (current != NULL) {
-        printf("ID: %s\n", current->data.transactionId);
-        printf("User: %s (%s)\n", current->data.userName, current->data.userRealName);
-        printf("Book: %s (%s)\n", current->data.judulBuku, current->data.kodeBuku);
-        printf("Status: %s\n", current->data.status);
-        printf("----------------------------------------\n");
-        current = current->next;
-    }
-}
-
-void displayTransactionHistory() {
-    if (historyTransactionList == NULL) {
-        printf("Tidak ada histori transaksi\n");
-        return;
-    }
-
-    printf("\nHistori Transaksi:\n");
-    printf("----------------------------------------\n");
-    
-    TransactionNode* current = historyTransactionList;
-    while (current != NULL) {
-        printf("ID: %s\n", current->data.transactionId);
-        printf("User: %s (%s)\n", current->data.userName, current->data.userRealName);
-        printf("Book: %s (%s)\n", current->data.judulBuku, current->data.kodeBuku);
-        printf("Status: %s\n", current->data.status);
-        printf("----------------------------------------\n");
-        current = current->next;
-    }
-}
-
 void displayUserTransactions(const char* userName) {
     printf("\nTransaksi untuk user %s:\n", userName);
     printf("----------------------------------------\n");
     
     // Check Transaksi aktif
+    printf("Transaksi aktif untuk user %s:\n", userName);
+    printf("----------------------------------------\n");
     TransactionNode* current = activeTransactionList;
     while (current != NULL) {
         if (strcmp(current->data.userName, userName) == 0) {
@@ -150,6 +112,8 @@ void displayUserTransactions(const char* userName) {
     }
 
     // Cek Histori
+    printf("\nHistori transaksi untuk user %s:\n", userName);
+    printf("----------------------------------------\n");
     current = historyTransactionList;
     while (current != NULL) {
         if (strcmp(current->data.userName, userName) == 0) {
