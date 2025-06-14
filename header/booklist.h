@@ -51,5 +51,11 @@ bool isBookAvailable(const char* kodeBuku);
 
 // Modul-modul penyimpanan buku
 void saveAllBooksToFile(const char* genreName);
+void loadBooksFromFile(const char* parentFolder, const char* genreName);
+void saveAllBooks();
+
+// Modul-modul yang berhubungan dengan rekomendasi
+void incrementViewCount(const char* kodeBuku);
+void displayTopBooks();
 
 #endif
