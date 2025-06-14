@@ -17,9 +17,17 @@ typedef struct WaitingNode {
 struct BookNode;
 typedef struct BookNode BookNode;
 
-// Operasi queue untuk Waiting List
+// Operasi Queue waiting list
 void enqueueWaitingList(BookNode* book, const char* userName);
 void dequeueWaitingList(BookNode* book);
 bool isWaitingListEmpty(BookNode* book);
+
+// Operasi File
+void saveWaitingList(BookNode* book);
+void loadWaitingList(BookNode* book);
+
+// Manajemen Waiting List
+void processWaitingList(BookNode* book);
+bool isUserInWaitingList(BookNode* book, const char* userName);
 
 #endif // QUEUE_H

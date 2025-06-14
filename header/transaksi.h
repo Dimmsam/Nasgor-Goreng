@@ -29,9 +29,13 @@ void addTransaction(const char* userName, const char* userRealName,
 bool updateTransactionStatus(const char* transactionId, const char* newStatus);
 
 // Fungsi untuk display detail transaksi
-void displayActiveTransactions();
-void displayTransactionHistory();
 void displayUserTransactions(const char* userName);
+
+// Operasi File
+void saveActiveTransactions();
+void saveTransactionHistory();
+void loadActiveTransactions();
+void loadTransactionHistory();
 
 // Variabel global
 extern TransactionNode* activeTransactionList;

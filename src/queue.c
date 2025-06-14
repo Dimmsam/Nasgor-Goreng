@@ -10,7 +10,7 @@ void enqueueWaitingList(BookNode* book, const char* userName) {
 
     WaitingNode* newNode = (WaitingNode*)malloc(sizeof(WaitingNode));
     if (newNode == NULL) {
-        printf("Memory allocation failed\n");
+        printf("Gagal alokasi memori\n");
         return;
     }
 
@@ -41,4 +41,78 @@ void dequeueWaitingList(BookNode* book) {
 
 bool isWaitingListEmpty(BookNode* book) {
     return (book == NULL || book->front == NULL);
+}
+
+void saveWaitingList(BookNode* book) {
+    if (book == NULL) return;
+
+    char filename[100];
+    sprintf(filename, "data/books/waiting/%s_waiting.txt", book->info.kode_buku);
+    
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Error Gagal membuka file untuk dibaca\n");
+        return;
+    }
+
+    WaitingNode* current = book->front;
+    while (current != NULL) {
+        fprintf(file, "%s\n", current->userName);
+        current = current->next;
+    }
+
+    fclose(file);
+}
+
+void loadWaitingList(BookNode* book) {
+    if (book == NULL) return;
+
+    char filename[100];
+    sprintf(filename, "data/books/waiting/%s_waiting.txt", book->info.kode_buku);
+    
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) return;
+
+    char userName[50];
+    while (fscanf(file, "%s", userName) == 1) {
+        WaitingNode* newNode = (WaitingNode*)malloc(sizeof(WaitingNode));
+        if (newNode == NULL) continue;
+
+        strcpy(newNode->userName, userName);
+        newNode->next = NULL;
+
+        if (book->rear == NULL) {
+            book->front = book->rear = newNode;
+        } else {
+            book->rear->next = newNode;
+            book->rear = newNode;
+        }
+    }
+
+    fclose(file);
+}
+
+void processWaitingList(BookNode* book) {
+    if (book == NULL || book->front == NULL) return;
+
+    WaitingNode* temp = book->front;
+    // Proses peminjaman untuk user pertama
+    addTransaction(temp->userName, temp->userName, book->info.kode_buku, book->judul, "dipinjam");
+    book->stok--;
+    incrementViewCount(book->info.kode_buku);
+    // Dequeue user pertama
+    dequeueWaitingList(book);
+}
+
+bool isUserInWaitingList(BookNode* book, const char* userName) {
+    if (book == NULL || book->front == NULL) return false;
+
+    WaitingNode* current = book->front;
+    while (current != NULL) {
+        if (strcmp(current->userName, userName) == 0) {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
 }
