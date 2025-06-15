@@ -46,4 +46,4 @@ void addBookToUserHistory(const char* userName, const char* judul, const char* g
 // Global variable
 extern User* userList;
 
-#endif
+#endif // STACK_H
