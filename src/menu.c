@@ -16,10 +16,10 @@ void displayMainMenu() {
 
 void displayAdminMenu() {
     printf("\n=== Menu Admin ===\n");
-    printf("1. Tambah Genre\n");
-    printf("2. Tambahkan Buku ke Genre\n");
+    printf("1. Tambah Genre Baru\n");
+    printf("2. Tambahkan Buku\n");
     printf("3. Hapus Buku\n");
-    printf("4. Lihat Daftar Buku\n");
+    printf("4. Lihat List Buku\n");
     printf("5. Atur Stok Buku\n");
     printf("6. Logout\n");
     printf("Masukkan pilihanmu: ");
@@ -27,8 +27,14 @@ void displayAdminMenu() {
 
 void displayUserMenu() {
     printf("\n=== Menu User ===\n");
-    printf("1. Lihat Transaksi User\n");
-    printf("2. Logout\n");
+    printf("1. Lihat Koleksi Buku\n");
+    printf("2. Pinjam Buku\n");
+    printf("3. Kembalikan Buku\n");
+    printf("4. Lihat Riwayat Bacaan\n");
+    printf("5. Lihat Rekomendasi Buku\n");
+    printf("6. Lihat Buku Terpopuler\n");
+    printf("7. Lihat Transaksi User\n");
+    printf("8. Logout\n");
     printf("Masukkan pilihanmu: ");
 }
 
@@ -68,30 +74,11 @@ void handleAdminMenu() {
     do {
         displayAdminMenu();
         scanf("%d", &choice);
-        getchar();
+        getchar(); // Clear buffer
 
-        switch (choice) {
-            case 1:
-                handleAddGenre();
-                break;
-            case 2:
-                handleAddBook();
-                break;
-            case 3:
-                handleRemoveBook();
-                break;
-            case 4:
-                displayAllBooks();
-                break;
-            case 5:
-                handleUpdateStock();
-                break;
-            case 6:
-                isAdminLoggedIn = false;
-                printf("Log Out Berhasil\n");
-                break;
+        switch (choice) { // Tinggal tambahin case sesuai menu admin buat nambah fitur
             default:
-                printf("Pilihan Tidak Valid\n");
+                printf("Pilihan tidak valid!\n");
         }
     } while (isAdminLoggedIn);
 }
@@ -105,11 +92,29 @@ void handleUserMenu() {
 
         switch (choice) { // Tinggal tambahin case sesuai menu user buat nambah fitur
             case 1:
-                displayUserTransactions(currentUserName);
+                displayAllBooks();
                 break;
             case 2:
+                handleBorrowBook();
+                break;
+            case 3:
+                handleReturnBook();
+                break;
+            case 4:
+                displayUserHistory(currentUserName);
+                break;
+            case 5:
+                displayRecommendationsForUser(currentUserName);
+                break;
+            case 6:
+                displayTopBooksByViewCount();
+                break;
+            case 7:
+                displayUserTransactions(currentUserName);
+                break;
+            case 8:
                 isUserLoggedIn = false;
-                printf("Logged out berhasil!\n");
+                printf("Log out berhasil!\n");
                 break;
             default:
                 printf("Pilihan tidak valid!\n");
@@ -149,19 +154,19 @@ void handleAddBook() {
     char kode[20];
     int tahun, stok;
 
-    printf("Masukkan Nama Genre : ");
+    printf("Masukkan Nama Genre: ");
     scanf("%s", genreName);
-    printf("Masukkan Judul Buku : ");
+    printf("Masukkan Judul Buku: ");
     scanf(" %[^\n]s", judul);
-    printf("Masukkan Penulis Buku : ");
+    printf("Masukkan Penulis: ");
     scanf(" %[^\n]s", penulis);
-    printf("Masukkan Penerbit Buku : ");
+    printf("Masukkan Penerbit: ");
     scanf(" %[^\n]s", penerbit);
-    printf("Masukkan Tahun Terbit Buku : ");
+    printf("Masukkan Tahun Terbit: ");
     scanf("%d", &tahun);
-    printf("Masukkan Kode Buku : ");
+    printf("Masukkan Kode Buku: ");
     scanf("%s", kode);
-    printf("Masukkan Stok Buku : ");
+    printf("Masukkan Stok: ");
     scanf("%d", &stok);
 
     BookNode* newBook = createBook(judul, penulis, penerbit, tahun, kode, stok, genreName);
@@ -188,8 +193,43 @@ void handleUpdateStock() {
 
     printf("Masukkan Kode Buku : ");
     scanf("%s", kodeBuku);
-    printf("Masukkan Stok Baru: ");
+    printf("Masukkan Stok Baru : ");
     scanf("%d", &newStock);
 
     updateBookStock(kodeBuku, newStock);
+}
+
+void handleBorrowBook() {
+    char kodeBuku[20];
+    printf("Masukkan kode buku: ");
+    scanf("%s", kodeBuku);
+    getchar();
+
+    BookNode* book = findBook(kodeBuku);
+    if (book == NULL) {
+        printf("Error: Buku tidak ditemukan!\n");
+        printf("Tekan Enter untuk melanjutkan...");
+        getchar();
+        return;
+    }
+
+    if (processBookBorrow(currentUserName, currentUserRealName, kodeBuku)) {
+        printf("Buku berhasil dipinjam!\n");
+        addBookToUserHistory(currentUserName, book->judul, book->genre);
+    } else {
+        printf("Tekan Enter untuk melanjutkan...");
+        getchar();
+    }
+}
+
+void handleReturnBook() {
+    char transactionId[20];
+    printf("Masukkan ID Transaksi: ");
+    scanf("%s", transactionId);
+
+    if (processBookReturn(transactionId)) {
+        printf("Buku berhasil dikembalikan!\n");
+    } else {
+        printf("ID Transaksi tidak valid!\n");
+    }
 }

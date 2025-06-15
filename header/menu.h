@@ -32,10 +32,14 @@ void handleUserLogin();
 void handleAdminMenu();
 void handleUserMenu();
 
-// Fungsi admin
+// Fungsi operasi admin
 void handleAddGenre();
 void handleAddBook();
 void handleRemoveBook();
 void handleUpdateStock();
+
+// Fungsi User
+void handleBorrowBook();
+void handleReturnBook();
 
 #endif // MENU_H

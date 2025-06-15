@@ -1,11 +1,20 @@
 #include "header/menu.h"
 
 int main() {
+    initGenreTree();
+
+    // Memuat semua data sebelum program dimulai
+    loadAdminData();
+    loadGenreData(&genreRoot);
+    loadAllBooks();
+    loadActiveTransactions();
+    loadTransactionHistory();
+
     int choice;
     do {
         displayMainMenu();
         scanf("%d", &choice);
-        getchar(); // Clear buffer
+        getchar(); 
 
         switch (choice) {
             case 1:
@@ -15,11 +24,18 @@ int main() {
                 handleUserLogin();
                 break;
             case 3:
-                printf("Terima kasih sudah mampir di Perpustkaan Digital!\n");
+                printf("Terima Kasih!\n");
                 break;
             default:
                 printf("Pilihan tidak valid!\n");
         }
     } while (choice != 3);
+
+    // Simpan semua data sebelum keluar
+    saveAllBooks();
+    saveActiveTransactions();
+    saveTransactionHistory();
+    saveGenreData(genreRoot);
+
     return 0;
 }
