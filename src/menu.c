@@ -17,7 +17,7 @@ void displayMainMenu() {
 void displayAdminMenu() {
     printf("\n=== Menu Admin ===\n");
     printf("1. Tambah Genre\n");
-    printf("2. Tambahkan Buku\n");
+    printf("2. Tambahkan Buku ke Genre\n");
     printf("3. Hapus Buku\n");
     printf("4. Lihat Daftar Buku\n");
     printf("5. Atur Stok Buku\n");
