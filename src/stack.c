@@ -165,3 +165,19 @@ void addBookToUserHistory(const char* userName, const char* judul, const char* g
     push(current->riwayatBaca, judul, genre);
     saveHistoryToFile(current->riwayatBaca, userName);
 }
+
+void clearAllHistory(Stack* stack) {
+    if (stack == NULL || stack->top == NULL) {
+        printf("Riwayat sudah kosong\n");
+        return;
+    }
+
+    RiwayatNode* current = stack->top;
+    while (current != NULL) {
+        RiwayatNode* temp = current;
+        current = current->next;
+        free(temp);
+    }
+    stack->top = NULL;
+    printf("Semua Riwayat Bacaan Sudah Dibersihkan\n");
+}
