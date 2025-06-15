@@ -76,7 +76,26 @@ void handleAdminMenu() {
         scanf("%d", &choice);
         getchar(); // Clear buffer
 
-        switch (choice) { // Tinggal tambahin case sesuai menu admin buat nambah fitur
+        switch (choice) {
+            case 1:
+                handleAddGenre();
+                break;
+            case 2:
+                handleAddBook();
+                break;
+            case 3:
+                handleRemoveBook();
+                break;
+            case 4:
+                displayAllBooks();
+                break;
+            case 5:
+                handleUpdateStock();
+                break;
+            case 6:
+                isAdminLoggedIn = false;
+                printf("Log out berhasil!\n");
+                break;
             default:
                 printf("Pilihan tidak valid!\n");
         }
