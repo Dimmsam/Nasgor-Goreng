@@ -242,21 +242,6 @@ void saveAllBooks() {
     }
 }
 
-void loadAllBooks() {
-    if (genreRoot == NULL) {
-        return;
-    }
-    GenreNode* mainGenre = genreRoot->firstChild;
-    while (mainGenre != NULL) {
-        GenreNode* genre = mainGenre->firstChild;
-        while (genre != NULL) {
-            loadBooksFromFile(mainGenre->genreName, genre->genreName);
-            genre = genre->nextSibling;
-        }
-        mainGenre = mainGenre->nextSibling;
-    }
-}
-
 void incrementViewCount(const char* kodeBuku) {
     BookNode* book = findBook(kodeBuku);
     if (book != NULL) {

@@ -32,10 +32,4 @@ void handleUserLogin();
 void handleAdminMenu();
 void handleUserMenu();
 
-// Fungsi admin
-void handleAddGenre();
-void handleAddBook();
-void handleRemoveBook();
-void handleUpdateStock();
-
 #endif // MENU_H
