@@ -114,10 +114,10 @@ void handleUserMenu() {
                 break;
             case 8:
                 isUserLoggedIn = false;
-                printf("Logged out successfully!\n");
+                printf("Log out berhasil!\n");
                 break;
             default:
-                printf("Invalid choice!\n");
+                printf("Pilihan tidak valid!\n");
         }
     } while (isUserLoggedIn);
 }
