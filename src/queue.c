@@ -100,6 +100,8 @@ void processWaitingList(BookNode* book) {
     addTransaction(temp->userName, temp->userName, book->info.kode_buku, book->judul, "dipinjam");
     book->stok--;
     incrementViewCount(book->info.kode_buku);
+     // Tambahkan ke history user
+    addBookToUserHistory(temp->userName, book->judul, book->genre);
     // Dequeue user pertama
     dequeueWaitingList(book);
 }

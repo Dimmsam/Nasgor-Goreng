@@ -38,4 +38,8 @@ void handleAddBook();
 void handleRemoveBook();
 void handleUpdateStock();
 
+// Fungsi User
+void handleBorrowBook();
+void handleReturnBook();
+
 #endif // MENU_H

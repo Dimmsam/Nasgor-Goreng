@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "stack.h"
+#include "booklist.h"
+#include "queue.h"
 
 // Struct untuk Transaction
 typedef struct Transaction {
@@ -36,6 +39,10 @@ void saveActiveTransactions();
 void saveTransactionHistory();
 void loadActiveTransactions();
 void loadTransactionHistory();
+
+// Proses Transaksi
+bool processBookBorrow(const char* userName, const char* userRealName, const char* kodeBuku);
+bool processBookReturn(const char* transactionId);
 
 // Variabel global
 extern TransactionNode* activeTransactionList;
