@@ -234,7 +234,6 @@ void handleBorrowBook() {
 
     if (processBookBorrow(currentUserName, currentUserRealName, kodeBuku)) {
         printf("Buku berhasil dipinjam!\n");
-        addBookToUserHistory(currentUserName, book->judul, book->genre);
     } else {
         printf("Tekan Enter untuk melanjutkan...");
         getchar();
