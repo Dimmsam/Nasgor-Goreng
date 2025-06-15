@@ -1,10 +1,11 @@
 #include "../header/tree.h"
 
-// Buat deklarasi variabel global
+// Global variable initialization
 GenreNode* genreRoot = NULL;
 GenreNode* fiksiNode = NULL;
 GenreNode* nonFiksiNode = NULL;
 
+// Inisialisasi root dengan dua child utama
 void initGenreTree() {
     genreRoot = createGenre("Sistem Perpus Digital");
     fiksiNode = createGenre("Fiksi");
@@ -16,6 +17,42 @@ void initGenreTree() {
     nonFiksiNode->parent = genreRoot;
 }
 
+// Fungsi untuk mencari node Fiksi/Non-Fiksi
+GenreNode* findMainGenre(const char* mainGenreName) {
+    if (genreRoot == NULL) return NULL;
+    GenreNode* current = genreRoot->firstChild;
+    while (current != NULL) {
+        if (strcmp(current->genreName, mainGenreName) == 0) {
+            return current;
+        }
+        current = current->nextSibling;
+    }
+    return NULL;
+}
+
+// Helper rekursif untuk saveGenreData
+void saveGenreDataRecursive(FILE* file, GenreNode* node) {
+    if (node == NULL) return;
+    // Hanya simpan genre yang bukan root dan bukan Fiksi/Non-Fiksi
+    if (node->parent != NULL && node->parent->parent != NULL) {
+        fprintf(file, "%s|%s\n", node->parent->genreName, node->genreName);
+    }
+    saveGenreDataRecursive(file, node->firstChild);
+    saveGenreDataRecursive(file, node->nextSibling);
+}
+
+void saveGenreData(GenreNode* root) {
+    FILE* file = fopen("data/statistics/genres.txt", "w");
+    if (file == NULL) {
+        printf("Error: Cannot open genre file for writing\n");
+        return;
+    }
+    // Simpan semua genre bertingkat (kecuali root dan Fiksi/Non-Fiksi)
+    saveGenreDataRecursive(file, root);
+    fclose(file);
+}
+
+// Fungsi untuk menambah genre sebagai child dari Fiksi/Non-Fiksi
 void addSubGenre(GenreNode* parent, const char* genreName) {
     GenreNode* newGenre = createGenre(genreName);
     if (newGenre == NULL || parent == NULL) {
@@ -31,19 +68,21 @@ void addSubGenre(GenreNode* parent, const char* genreName) {
         }
         current->nextSibling = newGenre;
     }
+    // Buat file genre di folder parent (fiksi/non-fiksi)
     char filename[256];
     sprintf(filename, "data/books/%s/%s.txt", parent->genreName, genreName);
     FILE* file = fopen(filename, "a");
     if (file != NULL) {
         fclose(file);
     }
+    // Simpan perubahan genre ke genres.txt
     saveGenreData(genreRoot);
 }
 
 GenreNode* createGenre(const char* genreName) {
     GenreNode* newNode = (GenreNode*)malloc(sizeof(GenreNode));
     if (newNode == NULL) {
-        printf("Error: Alokasi memori gagal\n");
+        printf("Error: Memory allocation failed\n");
         return NULL;
     }
 
@@ -60,42 +99,25 @@ GenreNode* findGenre(GenreNode* root, const char* genreName) {
     if (root == NULL) {
         return NULL;
     }
+
     if (strcmp(root->genreName, genreName) == 0) {
         return root;
     }
+
+    // Check siblings
     GenreNode* sibling = findGenre(root->nextSibling, genreName);
     if (sibling != NULL) {
         return sibling;
     }
+
+    // Check children
     return findGenre(root->firstChild, genreName);
-}
-
-GenreNode* findMainGenre(const char* mainGenreName) {
-    if (genreRoot == NULL) return NULL;
-    GenreNode* current = genreRoot->firstChild;
-    while (current != NULL) {
-        if (strcmp(current->genreName, mainGenreName) == 0) {
-            return current;
-        }
-        current = current->nextSibling;
-    }
-    return NULL;
-}
-
-void saveGenreData(GenreNode* root) {
-    FILE* file = fopen("data/statistics/genres.txt", "w");
-    if (file == NULL) {
-        printf("Error: Tidak dapat membuka file data genre\n");
-        return;
-    }
-    saveGenreDataRecursive(file, root);
-    fclose(file);
 }
 
 void loadGenreData(GenreNode** root) {
     FILE* file = fopen("data/statistics/genres.txt", "r");
     if (file == NULL) {
-        printf("Error: Tidak dapat membuka file data genre\n");
+        printf("Error: Cannot open genre file for reading\n");
         return;
     }
     char line[256];
@@ -106,6 +128,7 @@ void loadGenreData(GenreNode** root) {
         if (parentName && genreName) {
             GenreNode* parent = findMainGenre(parentName);
             if (parent) {
+                // Cek apakah genre sudah ada agar tidak double
                 GenreNode* check = parent->firstChild;
                 int found = 0;
                 while (check != NULL) {
@@ -122,14 +145,4 @@ void loadGenreData(GenreNode** root) {
         }
     }
     fclose(file);
-}
-
-// Modul rekursif buat penyimpanan data genre
-void saveGenreDataRecursive(FILE* file, GenreNode* node) {
-    if (node == NULL) return;
-    if (node->parent != NULL && node->parent->parent != NULL) {
-        fprintf(file, "%s|%s\n", node->parent->genreName, node->genreName);
-    }
-    saveGenreDataRecursive(file, node->firstChild);
-    saveGenreDataRecursive(file, node->nextSibling);
 }

@@ -126,6 +126,102 @@ void displayUserTransactions(const char* userName) {
     }
 }
 
+void saveActiveTransactions() {
+    FILE* file = fopen("data/transactions/active.txt", "w");
+    if (file == NULL) {
+        printf("Error: Tidak bisa membuka file\n");
+        return;
+    }
+
+    TransactionNode* current = activeTransactionList;
+    while (current != NULL) {
+        fprintf(file, "%s|%s|%s|%s|%s|%s\n",
+                current->data.transactionId,
+                current->data.userName,
+                current->data.userRealName,
+                current->data.kodeBuku,
+                current->data.judulBuku,
+                current->data.status);
+        current = current->next;
+    }
+
+    fclose(file);
+}
+
+void saveTransactionHistory() {
+    FILE* file = fopen("data/transactions/history.txt", "w");
+    if (file == NULL) {
+        printf("Error: Tidak bisa membuka file\n");
+        return;
+    }
+
+    TransactionNode* current = historyTransactionList;
+    while (current != NULL) {
+        fprintf(file, "%s|%s|%s|%s|%s|%s\n",
+                current->data.transactionId,
+                current->data.userName,
+                current->data.userRealName,
+                current->data.kodeBuku,
+                current->data.judulBuku,
+                current->data.status);
+        current = current->next;
+    }
+
+    fclose(file);
+}
+
+void loadActiveTransactions() {
+    FILE* file = fopen("data/transactions/active.txt", "r");
+    if (file == NULL) {
+        printf("Error: Tidak bisa membuka file\n");
+        return;
+    }
+
+    char line[512];
+    while (fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\n")] = 0;
+        
+        char* id = strtok(line, "|");
+        char* userName = strtok(NULL, "|");
+        char* userRealName = strtok(NULL, "|");
+        char* kodeBuku = strtok(NULL, "|");
+        char* judulBuku = strtok(NULL, "|");
+        char* status = strtok(NULL, "|");
+        
+        if (id && userName && userRealName && kodeBuku && judulBuku && status) {
+            addTransaction(userName, userRealName, kodeBuku, judulBuku, status);
+        }
+    }
+
+    fclose(file);
+}
+
+void loadTransactionHistory() {
+    FILE* file = fopen("data/transactions/history.txt", "r");
+    if (file == NULL) {
+        printf("Error: Tidak bisa membuka file\n");
+        return;
+    }
+
+    char line[512];
+    while (fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\n")] = 0;
+        
+        char* id = strtok(line, "|");
+        char* userName = strtok(NULL, "|");
+        char* userRealName = strtok(NULL, "|");
+        char* kodeBuku = strtok(NULL, "|");
+        char* judulBuku = strtok(NULL, "|");
+        char* status = strtok(NULL, "|");
+        
+        if (id && userName && userRealName && kodeBuku && judulBuku && status) {
+            addTransaction(userName, userRealName, kodeBuku, judulBuku, status);
+        }
+    }
+
+    fclose(file);
+}
+
 bool processBookBorrow(const char* userName, const char* userRealName, const char* kodeBuku) {
     BookNode* book = findBook(kodeBuku);
     if (book == NULL) {

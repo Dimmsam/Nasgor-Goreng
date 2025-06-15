@@ -7,6 +7,10 @@
 #include <stdbool.h>
 #include "booklist.h"
 
+// Struct terusan dari booklist.h
+struct BookNode;
+typedef struct BookNode BookNode;
+
 typedef struct GenreNode {
     char genreName[50];
     struct GenreNode* firstChild;
