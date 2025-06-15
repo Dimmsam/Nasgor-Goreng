@@ -91,3 +91,38 @@ void handleUserMenu() {
         }
     } while (isUserLoggedIn);
 }
+
+void handleBorrowBook() {
+    char kodeBuku[20];
+    printf("Masukkan kode buku: ");
+    scanf("%s", kodeBuku);
+    getchar();
+
+    BookNode* book = findBook(kodeBuku);
+    if (book == NULL) {
+        printf("Error: Buku tidak ditemukan!\n");
+        printf("Tekan Enter untuk melanjutkan...");
+        getchar();
+        return;
+    }
+
+    if (processBookBorrow(currentUserName, currentUserRealName, kodeBuku)) {
+        printf("Buku berhasil dipinjam!\n");
+        addBookToUserHistory(currentUserName, book->judul, book->genre);
+    } else {
+        printf("Tekan Enter untuk melanjutkan...");
+        getchar();
+    }
+}
+
+void handleReturnBook() {
+    char transactionId[20];
+    printf("Masukkan ID Transaksi: ");
+    scanf("%s", transactionId);
+
+    if (processBookReturn(transactionId)) {
+        printf("Buku berhasil dikembalikan!\n");
+    } else {
+        printf("ID Transaksi tidak valid!\n");
+    }
+}

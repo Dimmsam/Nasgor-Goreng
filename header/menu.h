@@ -19,6 +19,10 @@ extern bool isUserLoggedIn;
 extern char currentUserName[50];
 extern char currentUserRealName[50];
 
+// Fungsi untuk loading data
+void loadAllBooks();
+void loadUserHistory(const char* userName);
+
 // Fungsi untuk menampilkan menu utama, menu admin, dan menu user
 void displayMainMenu();
 void displayAdminMenu();
@@ -31,5 +35,9 @@ void handleUserLogin();
 // Fungsi untuk menangani menu admin dan user
 void handleAdminMenu();
 void handleUserMenu();
+
+// Operasi User
+void handleBorrowBook();
+void handleReturnBook();
 
 #endif // MENU_H
