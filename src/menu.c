@@ -27,8 +27,14 @@ void displayAdminMenu() {
 
 void displayUserMenu() {
     printf("\n=== Menu User ===\n");
-    printf("1. Lihat Transaksi User\n");
-    printf("2. Logout\n");
+    printf("1. Lihat Koleksi Buku\n");
+    printf("2. Pinjam Buku\n");
+    printf("3. Kembalikan Buku\n");
+    printf("4. Lihat Riwayat Bacaan\n");
+    printf("5. Lihat Rekomendasi Buku\n");
+    printf("6. Lihat Buku Terpopuler\n");
+    printf("7. Lihat Transaksi User\n");
+    printf("8. Logout\n");
     printf("Masukkan pilihanmu: ");
 }
 
@@ -105,14 +111,32 @@ void handleUserMenu() {
 
         switch (choice) { // Tinggal tambahin case sesuai menu user buat nambah fitur
             case 1:
-                displayUserTransactions(currentUserName);
+                displayAllBooks();
                 break;
             case 2:
+                handleBorrowBook();
+                break;
+            case 3:
+                handleReturnBook();
+                break;
+            case 4:
+                displayUserHistory(currentUserName);
+                break;
+            case 5:
+                displayRecommendationsForUser(currentUserName);
+                break;
+            case 6:
+                displayTopBooksByViewCount();
+                break;
+            case 7:
+                displayUserTransactions(currentUserName);
+                break;
+            case 8:
                 isUserLoggedIn = false;
-                printf("Logged out berhasil!\n");
+                printf("Logged out successfully!\n");
                 break;
             default:
-                printf("Pilihan tidak valid!\n");
+                printf("Invalid choice!\n");
         }
     } while (isUserLoggedIn);
 }
@@ -192,4 +216,39 @@ void handleUpdateStock() {
     scanf("%d", &newStock);
 
     updateBookStock(kodeBuku, newStock);
+}
+
+void handleBorrowBook() {
+    char kodeBuku[20];
+    printf("Masukkan kode buku: ");
+    scanf("%s", kodeBuku);
+    getchar();
+
+    BookNode* book = findBook(kodeBuku);
+    if (book == NULL) {
+        printf("Error: Buku tidak ditemukan!\n");
+        printf("Tekan Enter untuk melanjutkan...");
+        getchar();
+        return;
+    }
+
+    if (processBookBorrow(currentUserName, currentUserRealName, kodeBuku)) {
+        printf("Buku berhasil dipinjam!\n");
+        addBookToUserHistory(currentUserName, book->judul, book->genre);
+    } else {
+        printf("Tekan Enter untuk melanjutkan...");
+        getchar();
+    }
+}
+
+void handleReturnBook() {
+    char transactionId[20];
+    printf("Masukkan ID Transaksi: ");
+    scanf("%s", transactionId);
+
+    if (processBookReturn(transactionId)) {
+        printf("Buku berhasil dikembalikan!\n");
+    } else {
+        printf("ID Transaksi tidak valid!\n");
+    }
 }

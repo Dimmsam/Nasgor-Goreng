@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "booklist.h"
+#include "transaksi.h"
+#include "stack.h"
 
 // Struct untuk Waiting List
 typedef struct WaitingNode {
