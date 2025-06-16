@@ -17,7 +17,7 @@ bool loginAdmin(const char* username, const char* password) {
 void saveAdminData() {
     FILE* file = fopen("data/admin/admin.txt", "w");
     if (file == NULL) {
-        printf("Error: Tidak bisa membuka file data admin\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file data admin\n");
         return;
     }
 
@@ -33,7 +33,7 @@ void saveAdminData() {
 void loadAdminData() {
     FILE* file = fopen("data/admin/admin.txt", "r");
     if (file == NULL) {
-        printf("Error: Tidak bisa membuka file data admin\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file data admin\n");
         return;
     }
 
@@ -46,7 +46,7 @@ void loadAdminData() {
         if (username && password) {
             Admin* newAdmin = (Admin*)malloc(sizeof(Admin));
             if (newAdmin == NULL) {
-                printf("Error: Alokasi memori gagal\n");
+                printf("\t\t\t\t\t\tError: Alokasi memori gagal\n");
                 continue;
             }
             

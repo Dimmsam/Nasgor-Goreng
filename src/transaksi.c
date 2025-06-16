@@ -11,17 +11,16 @@ char* generateTransactionId() {
     return id;
 }
 
-void addTransaction(const char* userName, const char* userRealName, 
-                   const char* kodeBuku, const char* judulBuku, const char* status) {
+void addTransaction(const char* userName, const char* kodeBuku, const char* judulBuku, const char* status) {
     TransactionNode* newNode = (TransactionNode*)malloc(sizeof(TransactionNode));
     if (newNode == NULL) {
-        printf("Error: Gagal alokasi memori\n");
+        printf("\t\t\t\t\t\tError: Gagal alokasi memori\n");
+        getchar();
         return;
     }
 
     strcpy(newNode->data.transactionId, generateTransactionId());
     strcpy(newNode->data.userName, userName);
-    strcpy(newNode->data.userRealName, userRealName);
     strcpy(newNode->data.kodeBuku, kodeBuku);
     strcpy(newNode->data.judulBuku, judulBuku);
     strcpy(newNode->data.status, status);
@@ -93,34 +92,33 @@ bool updateTransactionStatus(const char* transactionId, const char* newStatus) {
     return false;
 }
 
-void displayUserTransactions(const char* userName) {
-    printf("\nTransaksi untuk user %s:\n", userName);
-    printf("----------------------------------------\n");
-    
-    // Check Transaksi aktif
-    printf("Transaksi aktif untuk user %s:\n", userName);
-    printf("----------------------------------------\n");
+void displayUserTransactions(const char* userName) {    
+    printf("\t\t\t\t\t\tTransaksi untuk user %s:\n", userName);
+    printf("\t\t\t\t\t\t----------------------------------------\n");
+
+    printf("\t\t\t\t\t\tTransaksi aktif untuk user %s:\n", userName);
+    printf("\t\t\t\t\t\t----------------------------------------\n");
     TransactionNode* current = activeTransactionList;
     while (current != NULL) {
         if (strcmp(current->data.userName, userName) == 0) {
-            printf("ID: %s\n", current->data.transactionId);
-            printf("Book: %s (%s)\n", current->data.judulBuku, current->data.kodeBuku);
-            printf("Status: %s\n", current->data.status);
-            printf("----------------------------------------\n");
+            printf("\t\t\t\t\t\tID: %s\n", current->data.transactionId);
+            printf("\t\t\t\t\t\tBook: %s (%s)\n", current->data.judulBuku, current->data.kodeBuku);
+            printf("\t\t\t\t\t\tStatus: %s\n", current->data.status);
+            printf("\t\t\t\t\t\t----------------------------------------\n");
         }
         current = current->next;
     }
 
     // Cek Histori
-    printf("\nHistori transaksi untuk user %s:\n", userName);
-    printf("----------------------------------------\n");
+    printf("\t\t\t\t\t\tHistori transaksi untuk user %s:\n", userName);
+    printf("\t\t\t\t\t\t----------------------------------------\n");
     current = historyTransactionList;
     while (current != NULL) {
         if (strcmp(current->data.userName, userName) == 0) {
-            printf("ID: %s\n", current->data.transactionId);
-            printf("Book: %s (%s)\n", current->data.judulBuku, current->data.kodeBuku);
-            printf("Status: %s\n", current->data.status);
-            printf("----------------------------------------\n");
+            printf("\t\t\t\t\t\tID: %s\n", current->data.transactionId);
+            printf("\t\t\t\t\t\tBook: %s (%s)\n", current->data.judulBuku, current->data.kodeBuku);
+            printf("\t\t\t\t\t\tStatus: %s\n", current->data.status);
+            printf("\t\t\t\t\t\t----------------------------------------\n");
         }
         current = current->next;
     }
@@ -129,7 +127,8 @@ void displayUserTransactions(const char* userName) {
 void saveActiveTransactions() {
     FILE* file = fopen("data/transactions/active.txt", "w");
     if (file == NULL) {
-        printf("Error: Tidak bisa membuka file\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file\n");
+        getchar();
         return;
     }
 
@@ -138,7 +137,6 @@ void saveActiveTransactions() {
         fprintf(file, "%s|%s|%s|%s|%s|%s\n",
                 current->data.transactionId,
                 current->data.userName,
-                current->data.userRealName,
                 current->data.kodeBuku,
                 current->data.judulBuku,
                 current->data.status);
@@ -151,7 +149,8 @@ void saveActiveTransactions() {
 void saveTransactionHistory() {
     FILE* file = fopen("data/transactions/history.txt", "w");
     if (file == NULL) {
-        printf("Error: Tidak bisa membuka file\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file\n");
+        getchar();
         return;
     }
 
@@ -160,7 +159,6 @@ void saveTransactionHistory() {
         fprintf(file, "%s|%s|%s|%s|%s|%s\n",
                 current->data.transactionId,
                 current->data.userName,
-                current->data.userRealName,
                 current->data.kodeBuku,
                 current->data.judulBuku,
                 current->data.status);
@@ -173,7 +171,8 @@ void saveTransactionHistory() {
 void loadActiveTransactions() {
     FILE* file = fopen("data/transactions/active.txt", "r");
     if (file == NULL) {
-        printf("Error: Tidak bisa membuka file\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file\n");
+        getchar();
         return;
     }
 
@@ -183,13 +182,12 @@ void loadActiveTransactions() {
         
         char* id = strtok(line, "|");
         char* userName = strtok(NULL, "|");
-        char* userRealName = strtok(NULL, "|");
         char* kodeBuku = strtok(NULL, "|");
         char* judulBuku = strtok(NULL, "|");
         char* status = strtok(NULL, "|");
         
-        if (id && userName && userRealName && kodeBuku && judulBuku && status) {
-            addTransaction(userName, userRealName, kodeBuku, judulBuku, status);
+        if (id && userName && kodeBuku && judulBuku && status) {
+            addTransaction(userName, kodeBuku, judulBuku, status);
         }
     }
 
@@ -199,7 +197,8 @@ void loadActiveTransactions() {
 void loadTransactionHistory() {
     FILE* file = fopen("data/transactions/history.txt", "r");
     if (file == NULL) {
-        printf("Error: Tidak bisa membuka file\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file\n");
+        getchar();
         return;
     }
 
@@ -209,23 +208,23 @@ void loadTransactionHistory() {
         
         char* id = strtok(line, "|");
         char* userName = strtok(NULL, "|");
-        char* userRealName = strtok(NULL, "|");
         char* kodeBuku = strtok(NULL, "|");
         char* judulBuku = strtok(NULL, "|");
         char* status = strtok(NULL, "|");
         
-        if (id && userName && userRealName && kodeBuku && judulBuku && status) {
-            addTransaction(userName, userRealName, kodeBuku, judulBuku, status);
+        if (id && userName && kodeBuku && judulBuku && status) {
+            addTransaction(userName, kodeBuku, judulBuku, status);
         }
     }
 
     fclose(file);
 }
 
-bool processBookBorrow(const char* userName, const char* userRealName, const char* kodeBuku) {
+bool processBookBorrow(const char* userName, const char* kodeBuku) {
     BookNode* book = findBook(kodeBuku);
     if (book == NULL) {
-        printf("Buku tidak ditemukan\n");
+        printf("\t\t\t\t\t\tBuku tidak ditemukan\n");
+        getchar();
         return false;
     }
 
@@ -234,7 +233,8 @@ bool processBookBorrow(const char* userName, const char* userRealName, const cha
     while (current != NULL) {
         if (strcmp(current->data.userName, userName) == 0 && 
             strcmp(current->data.kodeBuku, kodeBuku) == 0) {
-            printf("Anda sudah meminjam buku ini\n");
+            printf("\t\t\t\t\t\tAnda sudah meminjam buku ini\n");
+            getchar();
             return false;
         }
         current = current->next;
@@ -242,7 +242,7 @@ bool processBookBorrow(const char* userName, const char* userRealName, const cha
 
     if (book->stok > 0) {
         // Proses peminjaman normal
-        addTransaction(userName, userRealName, kodeBuku, book->judul, "dipinjam");
+        addTransaction(userName, kodeBuku, book->judul, "dipinjam");
         book->stok--;
         incrementViewCount(kodeBuku);
         addBookToUserHistory(userName, book->judul, book->genre);
@@ -250,14 +250,14 @@ bool processBookBorrow(const char* userName, const char* userRealName, const cha
     } else {
         // Cek apakah user sudah ada di waiting list
         if (isUserInWaitingList(book, userName)) {
-            printf("Anda sudah terdaftar di waiting list untuk buku ini\n");
+            printf("\t\t\t\t\t\tAnda sudah terdaftar di waiting list untuk buku ini\n");
             return false;
         }
         
         // Tambahkan ke waiting list
         enqueueWaitingList(book, userName);
         saveWaitingList(book);
-        printf("Buku sedang dipinjam. Anda telah ditambahkan ke waiting list\n");
+        printf("\t\t\t\t\t\tBuku sedang dipinjam. Anda telah ditambahkan ke waiting list\n");
         return false;
     }
 }

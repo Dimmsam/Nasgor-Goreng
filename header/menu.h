@@ -17,9 +17,9 @@
 extern bool isAdminLoggedIn;
 extern bool isUserLoggedIn;
 extern char currentUserName[50];
-extern char currentUserRealName[50];
 
 // Fungsi untuk menampilkan menu utama, menu admin, dan menu user
+void displayHeader();
 void displayMainMenu();
 void displayAdminMenu();
 void displayUserMenu();

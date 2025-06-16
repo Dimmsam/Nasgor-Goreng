@@ -10,7 +10,8 @@ void enqueueWaitingList(BookNode* book, const char* userName) {
 
     WaitingNode* newNode = (WaitingNode*)malloc(sizeof(WaitingNode));
     if (newNode == NULL) {
-        printf("Gagal alokasi memori\n");
+        printf("\t\t\t\t\t\tError: Gagal alokasi memori\n");
+        getchar();
         return;
     }
 
@@ -51,7 +52,8 @@ void saveWaitingList(BookNode* book) {
     
     FILE* file = fopen(filename, "w");
     if (file == NULL) {
-        printf("Error Gagal membuka file untuk dibaca\n");
+        printf("\t\t\t\t\t\tError: Gagal membuka file untuk dibaca\n");
+        getchar();
         return;
     }
 
@@ -97,7 +99,7 @@ void processWaitingList(BookNode* book) {
 
     WaitingNode* temp = book->front;
     // Proses peminjaman untuk user pertama
-    addTransaction(temp->userName, temp->userName, book->info.kode_buku, book->judul, "dipinjam");
+    addTransaction(temp->userName, book->info.kode_buku, book->judul, "dipinjam");
     book->stok--;
     incrementViewCount(book->info.kode_buku);
      // Tambahkan ke history user

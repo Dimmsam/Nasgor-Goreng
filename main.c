@@ -24,10 +24,10 @@ int main() {
                 handleUserLogin();
                 break;
             case 3:
-                printf("Terima Kasih!\n");
+                printf("\t\t\t\t\t\tTerima Kasih, sampai bertemu lagi!\n");
                 break;
             default:
-                printf("Pilihan tidak valid!\n");
+                printf("\t\t\t\t\t\tPilihan tidak valid!\n");
         }
     } while (choice != 3);
 

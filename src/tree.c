@@ -44,7 +44,8 @@ void saveGenreDataRecursive(FILE* file, GenreNode* node) {
 void saveGenreData(GenreNode* root) {
     FILE* file = fopen("data/statistics/genres.txt", "w");
     if (file == NULL) {
-        printf("Error: Cannot open genre file for writing\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file\n");
+        getchar();
         return;
     }
     // Simpan semua genre bertingkat (kecuali root dan Fiksi/Non-Fiksi)
@@ -82,7 +83,8 @@ void addSubGenre(GenreNode* parent, const char* genreName) {
 GenreNode* createGenre(const char* genreName) {
     GenreNode* newNode = (GenreNode*)malloc(sizeof(GenreNode));
     if (newNode == NULL) {
-        printf("Error: Memory allocation failed\n");
+        printf("\t\t\t\t\t\tError: Gagal alokasi memori\n");
+        getchar();
         return NULL;
     }
 
@@ -117,7 +119,8 @@ GenreNode* findGenre(GenreNode* root, const char* genreName) {
 void loadGenreData(GenreNode** root) {
     FILE* file = fopen("data/statistics/genres.txt", "r");
     if (file == NULL) {
-        printf("Error: Cannot open genre file for reading\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file\n");
+        getchar();
         return;
     }
     char line[256];

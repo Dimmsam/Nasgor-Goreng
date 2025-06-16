@@ -3,10 +3,10 @@
 
 User* userList = NULL;
 
-Stack* createStack() {
-    Stack* stack = (Stack*)malloc(sizeof(Stack));
+Stack* createStack() {    Stack* stack = (Stack*)malloc(sizeof(Stack));
     if (stack == NULL) {
-        printf("Error: Memory allocation failed\n");
+        printf("\t\t\t\t\t\tError: Gagal alokasi memori\n");
+        getchar();
         return NULL;
     }
     stack->top = NULL;
@@ -16,7 +16,8 @@ Stack* createStack() {
 void push(Stack* stack, const char* judul, const char* genre) {
     RiwayatNode* newNode = (RiwayatNode*)malloc(sizeof(RiwayatNode));
     if (newNode == NULL) {
-        printf("Error: Memory allocation failed\n");
+        printf("\t\t\t\t\t\tError: Gagal alokasi memori\n");
+        getchar();
         return;
     }
 
@@ -26,36 +27,34 @@ void push(Stack* stack, const char* judul, const char* genre) {
     stack->top = newNode;
 }
 
-RiwayatNode* pop(Stack* stack) {
-    if (isStackEmpty(stack)) {
-        return NULL;
-    }
-
-    RiwayatNode* temp = stack->top;
-    stack->top = stack->top->next;
-    return temp;
-}
+//RiwayatNode* pop(Stack* stack) {
+//    if (isStackEmpty(stack)) {
+//        return NULL;
+//    }
+//
+//    RiwayatNode* temp = stack->top;
+//    stack->top = stack->top->next;
+//    return temp;
+//}
 
 bool isStackEmpty(Stack* stack) {
     return (stack->top == NULL);
 }
 
-void displayReadingHistory(Stack* stack) {
-    if (isStackEmpty(stack)) {
-        printf("Reading history is empty\n");
+void displayReadingHistory(Stack* stack) {    if (isStackEmpty(stack)) {
+        printf("\t\t\t\t\t\tRiwayat bacaan kosong\n");
         return;
     }
 
-    printf("\nReading History:\n");
-    printf("----------------------------------------\n");
+    printf("\t\t\t\t\t\tRiwayat Bacaan:\n");
+    printf("\t\t\t\t\t\t----------------------------------------\n");
     
     RiwayatNode* current = stack->top;
     int position = 1;
     
-    while (current != NULL) {
-        printf("%d. Title: %s\n", position++, current->judul);
-        printf("   Genre: %s\n", current->genre);
-        printf("----------------------------------------\n");
+    while (current != NULL) {        printf("\t\t\t\t\t\t%d. Judul: %s\n", position++, current->judul);
+        printf("\t\t\t\t\t\t   Genre: %s\n", current->genre);
+        printf("\t\t\t\t\t\t----------------------------------------\n");
         current = current->next;
     }
 }
@@ -65,7 +64,7 @@ void displayUserHistory(const char* userName) {
     if (userStack != NULL) {
         displayReadingHistory(userStack);
     } else {
-        printf("No reading history found for user %s\n", userName);
+        printf("\t\t\t\t\t\tTidak ditemukan riwayat bacaan untuk pengguna %s\n", userName);
     }
 }
 
@@ -75,7 +74,8 @@ void saveHistoryToFile(Stack* stack, const char* userName) {
     
     FILE* file = fopen(filename, "w");
     if (file == NULL) {
-        printf("Error: Cannot open history file for writing\n");
+        printf("\t\t\t\t\t\tError: Tidak dapat membuka file riwayat untuk menulis\n");
+        getchar();
         return;
     }
 
@@ -94,7 +94,8 @@ void loadHistoryFromFile(Stack** stack, const char* userName) {
     
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Error: Cannot open history file for reading\n");
+        printf("\t\t\t\t\t\tError: Tidak dapat membuka file riwayat untuk dibaca\n");
+        getchar();
         return;
     }
 
@@ -146,7 +147,8 @@ void addBookToUserHistory(const char* userName, const char* judul, const char* g
         // Create new user
         current = (User*)malloc(sizeof(User));
         if (current == NULL) {
-            printf("Error: Memory allocation failed\n");
+            printf("\t\t\t\t\t\tError: Gagal alokasi memori\n");
+            getchar();
             return;
         }
         
@@ -168,7 +170,7 @@ void addBookToUserHistory(const char* userName, const char* judul, const char* g
 
 void clearAllHistory(Stack* stack) {
     if (stack == NULL || stack->top == NULL) {
-        printf("Riwayat sudah kosong\n");
+        printf("\t\t\t\t\t\tRiwayat sudah kosong\n");
         return;
     }
 
@@ -179,5 +181,5 @@ void clearAllHistory(Stack* stack) {
         free(temp);
     }
     stack->top = NULL;
-    printf("Semua Riwayat Bacaan Sudah Dibersihkan\n");
+    printf("\t\t\t\t\t\tSemua Riwayat Bacaan Sudah Dibersihkan\n");
 }

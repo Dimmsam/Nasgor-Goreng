@@ -43,6 +43,7 @@ void loadHistoryFromFile(Stack** stack, const char* userName);
 Stack* getUserStack(const char* userName);
 void addBookToUserHistory(const char* userName, const char* judul, const char* genre);
 void clearAllHistory(Stack* stack);
+
 // Global variable
 extern User* userList;
 

@@ -3,28 +3,28 @@
 void generateRecommendations(const char* userName) {
     Stack* userStack = getUserStack(userName);
     if (userStack == NULL) {
-        printf("No reading history found for user %s\n", userName);
+        printf("\t\t\t\t\t\tTidak ditemukan riwayat bacaan untuk user %s\n", userName);
         return;
     }
 
     // preference genre analisis
     GenreStats* genreStats = analyzeUserGenrePreference(userStack);
     if (genreStats == NULL) {
-        printf("No genre preferences found\n");
+        printf("\t\t\t\t\t\tTidak ditemukan preferensi genre yang mendukung\n");
         return;
     }
 
     // ngambil buku terbanyak dibaca
     char* mostReadGenre = getMostReadGenre(userStack);
     if (mostReadGenre == NULL) {
-        printf("No genre preferences found\n");
+        printf("\t\t\t\t\t\tTidak ditemukan preferensi genre yang mendukung\n");
         return;
     }
 
     // Display rekomendasi dari buku
-    printf("\nRecommendations for user %s:\n", userName);
-    printf("----------------------------------------\n");
-    printf("Based on your reading history, you might enjoy these books:\n\n");
+    printf("\t\t\t\t\t\tRekomendasi untuk User %s:\n", userName);
+    printf("\t\t\t\t\t\t----------------------------------------\n");
+    printf("\t\t\t\t\t\tBerdasarkan riwayat bacaan yang kamu baca, kamu mungkin suka:\n\n");
 
     // Display Buku Dari Genre Terbanyak
     GenreNode* genre = findGenre(genreRoot, mostReadGenre);
@@ -32,11 +32,11 @@ void generateRecommendations(const char* userName) {
         BookNode* current = genre->bookList;
         int count = 0;
         while (current != NULL && count < 5) {
-            printf("%d. %s\n", count + 1, current->judul);
-            printf("   Author: %s\n", current->info.penulis);
-            printf("   Publisher: %s\n", current->info.penerbit);
-            printf("   Year: %d\n", current->info.tahun_terbit);
-            printf("----------------------------------------\n");
+            printf("\t\t\t\t\t\t%d. %s\n", count + 1, current->judul);
+            printf("\t\t\t\t\t\t   Penulis: %s\n", current->info.penulis);
+            printf("\t\t\t\t\t\t   Penerbit: %s\n", current->info.penerbit);
+            printf("\t\t\t\t\t\t   Tahun Terbit: %d\n", current->info.tahun_terbit);
+            printf("\t\t\t\t\t\t----------------------------------------\n");
             current = current->next;
             count++;
         }
@@ -87,7 +87,8 @@ GenreStats* analyzeUserGenrePreference(Stack* riwayat) {
             // buat genre baru
             GenreStats* newStat = (GenreStats*)malloc(sizeof(GenreStats));
             if (newStat == NULL) {
-                printf("Error: Memory allocation failed\n");
+                printf("\t\t\t\t\t\tError: Gagal alokasi memori\n");
+                getchar();
                 continue;
             }
 

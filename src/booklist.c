@@ -4,7 +4,7 @@ BookNode* createBook(const char* judul, const char* penulis, const char* penerbi
                     int tahun, const char* kode, int stok, const char* genre) {
     BookNode* newBook = (BookNode*)malloc(sizeof(BookNode));
     if (newBook == NULL) {
-        printf("Error: Gagal alokasi memori\n");
+        printf("\t\t\t\t\t\tError: Gagal alokasi memori\n");
         return NULL;
     }
 
@@ -28,7 +28,8 @@ BookNode* createBook(const char* judul, const char* penulis, const char* penerbi
 void addBookToGenre(const char* genreName, BookNode* book) {
     GenreNode* genre = findGenre(genreRoot, genreName);
     if (genre == NULL) {
-        printf("Error: Genre tidak ditemukan\n");
+        printf("\t\t\t\t\t\tError: Genre tidak ditemukan\n");
+        getchar();
         return;
     }
 
@@ -50,7 +51,8 @@ void addBookToGenre(const char* genreName, BookNode* book) {
 void removeBookFromGenre(const char* genreName, const char* kodeBuku) {
     GenreNode* genre = findGenre(genreRoot, genreName);
     if (genre == NULL) {
-        printf("Error: Genre tidak ditemukan\n");
+        printf("\t\t\t\t\t\tError: Genre tidak ditemukan\n");
+        getchar();
         return;
     }
     
@@ -58,7 +60,8 @@ void removeBookFromGenre(const char* genreName, const char* kodeBuku) {
     TransactionNode* currentTrans = activeTransactionList;
     while (currentTrans != NULL) {
         if (strcmp(currentTrans->data.kodeBuku, kodeBuku) == 0) {
-            printf("Error: Tidak bisa menghapus buku, buku sedang dipinjam\n");
+            printf("\t\t\t\t\t\tError: Tidak bisa menghapus buku, buku sedang dipinjam\n");
+            getchar();
             return;
         }
         currentTrans = currentTrans->next;
@@ -71,7 +74,8 @@ void removeBookFromGenre(const char* genreName, const char* kodeBuku) {
         if (strcmp(current->info.kode_buku, kodeBuku) == 0) {
             // Cek apakah ada user di waiting list
             if (current->front != NULL) {
-                printf("Error: Tidak bisa menghapus buku, ada user di waiting list\n");
+                printf("\t\t\t\t\t\tError: Tidak bisa menghapus buku, ada user di waiting list\n");
+                getchar();
                 return;
             }
             
@@ -83,35 +87,35 @@ void removeBookFromGenre(const char* genreName, const char* kodeBuku) {
             free(current);
             // Update file
             saveAllBooksToFile(genre->genreName);
-            printf("Buku berhasil dihapus\n");
+            printf("\t\t\t\t\t\tBuku berhasil dihapus\n");
+            getchar();
             return;
         }
         prev = current;
         current = current->next;
     }
-    printf("Error: Buku tidak ditemukan didalam genre\n");
+    printf("\t\t\t\t\t\tError: Buku tidak ditemukan didalam genre\n");
+    getchar();
 }
 
 void displayBooksInGenre(const char* genreName) {
     GenreNode* genre = findGenre(genreRoot, genreName);
     if (genre == NULL) {
-        printf("Error: Genre tidak ditemukan\n");
+        printf("\t\t\t\t\t\tError: Genre tidak ditemukan\n");
+        getchar();
         return;
-    }
-
-    printf("\nBooks in genre '%s':\n", genreName);
-    printf("----------------------------------------\n");
+    }    printf("\t\t\t\t\t\tBooks in genre '%s':\n", genreName);
+    printf("\t\t\t\t\t\t----------------------------------------\n");
     
     BookNode* current = genre->bookList;
-    while (current != NULL) {
-        printf("Title: %s\n", current->judul);
-        printf("Author: %s\n", current->info.penulis);
-        printf("Publisher: %s\n", current->info.penerbit);
-        printf("Year: %d\n", current->info.tahun_terbit);
-        printf("Code: %s\n", current->info.kode_buku);
-        printf("Stock: %d\n", current->stok);
-        printf("Views: %d\n", current->viewCount);
-        printf("----------------------------------------\n");
+    while (current != NULL) {        printf("\t\t\t\t\t\tTitle: %s\n", current->judul);
+        printf("\t\t\t\t\t\tAuthor: %s\n", current->info.penulis);
+        printf("\t\t\t\t\t\tPublisher: %s\n", current->info.penerbit);
+        printf("\t\t\t\t\t\tYear: %d\n", current->info.tahun_terbit);
+        printf("\t\t\t\t\t\tCode: %s\n", current->info.kode_buku);
+        printf("\t\t\t\t\t\tStock: %d\n", current->stok);
+        printf("\t\t\t\t\t\tViews: %d\n", current->viewCount);
+        printf("\t\t\t\t\t\t----------------------------------------\n");
         current = current->next;
     }
 }
@@ -133,7 +137,8 @@ void saveAllBooksToFile(const char* genreName) {
     sprintf(filename, "data/books/%s/%s.txt", parentFolder, genreName);
     FILE* file = fopen(filename, "w");
     if (file == NULL) {
-        printf("Error: Tidak bisa membuka file\n");
+        printf("\t\t\t\t\t\tError: Tidak bisa membuka file\n");
+        getchar();
         return;
     }
     
@@ -179,12 +184,13 @@ void loadBooksFromFile(const char* parentFolder, const char* genreName) {
 
 void displayAllBooks() {
     if (genreRoot == NULL) {
-        printf("Tidak ada genre tersedia\n");
+        printf("\t\t\t\t\t\tTidak ada genre tersedia\n");
+        getchar();
         return;
     }
     GenreNode* mainGenre = genreRoot->firstChild;
     while (mainGenre != NULL) {
-        printf("\n=== %s ===\n", mainGenre->genreName);
+        printf("\t\t\t\t\t\t=== %s ===\n", mainGenre->genreName);
         GenreNode* genre = mainGenre->firstChild;
         while (genre != NULL) {
             displayBooksInGenre(genre->genreName);
@@ -263,7 +269,8 @@ void incrementViewCount(const char* kodeBuku) {
 
 void displayTopBooks() {
     if (genreRoot == NULL) {
-        printf("Tidak ada buku yang tersedia\n");
+        printf("\t\t\t\t\t\tTidak ada buku yang tersedia\n");
+        getchar();
         return;
     }
     BookNode* allBooks[1000];
@@ -290,14 +297,13 @@ void displayTopBooks() {
                 allBooks[j + 1] = temp;
             }
         }
-    }
-    printf("\nBuku teratas:\n");
-    printf("----------------------------------------\n");
+    }    printf("\t\t\t\t\t\tBuku teratas:\n");
+    printf("\t\t\t\t\t\t----------------------------------------\n");
     for (int i = 0; i < bookCount && i < 10; i++) {
-        printf("%d. %s\n", i + 1, allBooks[i]->judul);
-        printf("   Views: %d\n", allBooks[i]->viewCount);
-        printf("   Author: %s\n", allBooks[i]->info.penulis);
-        printf("----------------------------------------\n");
+        printf("\t\t\t\t\t\t%d. %s\n", i + 1, allBooks[i]->judul);
+        printf("\t\t\t\t\t\t   Views: %d\n", allBooks[i]->viewCount);
+        printf("\t\t\t\t\t\t   Author: %s\n", allBooks[i]->info.penulis);
+        printf("\t\t\t\t\t\t----------------------------------------\n");
     }
 }
 
