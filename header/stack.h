@@ -28,7 +28,7 @@ typedef struct User {
 // Stack Operations
 Stack* createStack();
 void push(Stack* stack, const char* judul, const char* genre);
-RiwayatNode* pop(Stack* stack);
+/*RiwayatNode* pop(Stack* stack);*/
 bool isStackEmpty(Stack* stack);
 
 // Display Functions

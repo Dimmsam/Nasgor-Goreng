@@ -27,15 +27,15 @@ void push(Stack* stack, const char* judul, const char* genre) {
     stack->top = newNode;
 }
 
-//RiwayatNode* pop(Stack* stack) {
-//    if (isStackEmpty(stack)) {
-//        return NULL;
-//    }
-//
-//    RiwayatNode* temp = stack->top;
-//    stack->top = stack->top->next;
-//    return temp;
-//}
+/*RiwayatNode* pop(Stack* stack) {
+    if (isStackEmpty(stack)) {
+        return NULL;
+    }
+
+    RiwayatNode* temp = stack->top;
+    stack->top = stack->top->next;
+    return temp;
+}*/
 
 bool isStackEmpty(Stack* stack) {
     return (stack->top == NULL);
